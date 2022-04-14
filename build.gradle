@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
+	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
@@ -11,9 +11,15 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	maven { url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/" }
+}
+configurations {
+	all*.exclude module : 'spring-boot-starter-logging'
 }
 
+
 dependencies {
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.19.1'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
