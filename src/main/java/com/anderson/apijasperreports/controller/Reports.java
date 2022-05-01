@@ -1,11 +1,14 @@
 package com.anderson.apijasperreports.controller;
 
+import com.anderson.apijasperreports.service.JasperService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Connection;
 
 @RestController
@@ -13,12 +16,14 @@ import java.sql.Connection;
 public class Reports {
 
     @Autowired
-    private Connection connection;
+    private JasperService jasperService;
 
-    @GetMapping("/hello")
-    @ResponseBody
-    public String helloJasperReports(){
-        return connection!=null?"JASPER-REPORTS":"Erro de conexão";
+    @GetMapping("/relatorio/pdf/jr1")
+    public ResponseEntity<byte[]> exibirRelatorio(@RequestParam( name = "code",required = false) String code) throws IOException {
+        byte[] bytes = this.jasperService.exportarPDF(code);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-disposition", "inline; filename=relatorio.pdf");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(bytes);
     }
 
 }
