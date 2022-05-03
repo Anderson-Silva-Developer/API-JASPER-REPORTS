@@ -28,4 +28,13 @@ public class ReportsController {
         return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(bytes);
     }
 
+    @GetMapping("/relatorio/pdf/jr2")
+    public ResponseEntity<byte[]> exibirRelatorio() throws IOException {
+
+        byte[] bytes = this.jasperService.modeloVendasExportarPDF();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-disposition", "inline; filename=relatorio-vendas.pdf");
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(bytes);
+    }
+
 }
