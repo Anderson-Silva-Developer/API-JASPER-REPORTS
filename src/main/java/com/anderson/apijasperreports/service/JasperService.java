@@ -10,10 +10,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -22,10 +20,6 @@ import java.util.Objects;
 
 @Service
 public class JasperService {
-//    private static final String JASPER_DIRETORIO = "jasper/";
-//    private static final String JASPER_PREFIXO = "relatorio-";
-//    private static final String JASPER_SUFIXO = ".jasper";
-
     @Autowired
     private Connection connection;
     private Map<String, Object> params = new HashMap<>();
@@ -34,10 +28,12 @@ public class JasperService {
         this.params.put(key, value);
     }
 
-    public byte[] exportarPDF(String code) {
-        if (Objects.isNull(code)){
-            throw new BadRequestJasper("O parâmetro code não pode ser nulo");
+    public byte[] modelo01ExportarPDF(String codigo_relatorio,Integer CODICO_CLIENTE,String NOME_CLIENTE) {
+        if (Objects.isNull(codigo_relatorio)){
+            throw new BadRequestJasper("O parâmetro codigo_relatorio não pode ser nulo");
         }
+        addParams("CODIGO_CLIENTE",CODICO_CLIENTE);
+        addParams("NOME_CLIENTE",NOME_CLIENTE);
 
         byte[] bytes = null;
         try {
@@ -45,9 +41,10 @@ public class JasperService {
             File file=new ClassPathResource(
                     ResourceJasper.JASPER_DIRETORIO.getValue()
                     .concat(ResourceJasper.JASPER_PREFIXO.getValue()
-                    .concat(code)
+                    .concat(codigo_relatorio)
                     .concat(ResourceJasper.JASPER_SUFIXO.getValue())))
                     .getFile();
+
             JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), params, connection);
             bytes = JasperExportManager.exportReportToPdf(print);
 
