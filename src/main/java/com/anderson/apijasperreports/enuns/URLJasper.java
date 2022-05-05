@@ -1,6 +1,6 @@
 package com.anderson.apijasperreports.enuns;
 
-public enum ResourceJasper {
+public enum URLJasper {
     JASPER_DIRETORIO("jasper/"),
     JASPER_PREFIXO("relatorio-"),
     JASPER_SUFIXO_JASPER(".jasper"),
@@ -8,7 +8,7 @@ public enum ResourceJasper {
 
     private String value;
 
-    ResourceJasper(String value) {
+    URLJasper(String value) {
         this.value=value;
     }
 

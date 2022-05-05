@@ -1,6 +1,6 @@
 package com.anderson.apijasperreports.service;
 
-import com.anderson.apijasperreports.enuns.ResourceJasper;
+import com.anderson.apijasperreports.enuns.URLJasper;
 import com.anderson.apijasperreports.exception.BadRequestJasper;
 import com.anderson.apijasperreports.exception.ErroPathResource;
 import com.anderson.apijasperreports.mock.Mock;
@@ -42,10 +42,10 @@ public class JasperService {
         try {
 
             File file = new ClassPathResource(
-                    ResourceJasper.JASPER_DIRETORIO.getValue()
-                            .concat(ResourceJasper.JASPER_PREFIXO.getValue()
+                    URLJasper.JASPER_DIRETORIO.getValue()
+                            .concat(URLJasper.JASPER_PREFIXO.getValue()
                             .concat(codigo_relatorio)
-                            .concat(ResourceJasper.JASPER_SUFIXO_JASPER.getValue())))
+                            .concat(URLJasper.JASPER_SUFIXO_JASPER.getValue())))
                             .getFile();
 
             JasperPrint print = JasperFillManager.fillReport(file.getAbsolutePath(), params, connection);
@@ -63,12 +63,12 @@ public class JasperService {
     public byte[] modeloVendasExportarPDF() {
         byte[] bytes = null;
         try {
-            addParams("IMAGEM_DIRETORIO",ResourceJasper.JASPER_DIRETORIO.getValue());
+            addParams("IMAGEM_DIRETORIO", URLJasper.JASPER_DIRETORIO.getValue());
             File file = new ClassPathResource(
-                    ResourceJasper.JASPER_DIRETORIO.getValue()
-                            .concat(ResourceJasper.JASPER_PREFIXO.getValue()
+                    URLJasper.JASPER_DIRETORIO.getValue()
+                            .concat(URLJasper.JASPER_PREFIXO.getValue()
                             .concat("vendas")
-                            .concat(ResourceJasper.JASPER_SUFIXO_JRXML.getValue())))
+                            .concat(URLJasper.JASPER_SUFIXO_JRXML.getValue())))
                            .getFile();
 
             JasperReport compileReport = JasperCompileManager
