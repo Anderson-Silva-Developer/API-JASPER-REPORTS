@@ -10,7 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -73,9 +72,10 @@ public class JasperService {
                            .getFile();
 
             JasperReport compileReport = JasperCompileManager
-                    .compileReport(new FileInputStream(file.getAbsolutePath()));
+                    .compileReport(file.getAbsolutePath());
             JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, params, new Mock().mockVendas());
             bytes = JasperExportManager.exportReportToPdf(jasperPrint);
+
 
         } catch (JRException | ParseException e) {
             throw new ErroPathResource("Caminho ou arquivo não encontrado");
